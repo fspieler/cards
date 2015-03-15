@@ -35,6 +35,19 @@ class Card(object):
             faces = ["J","Q","K","A"]
             return(faces[self.val-11] + str(self.suit))
 
+    def __gt__(self,other):
+        return self.val > other.val
+
+    def __lt__(self,other):
+        return self.val < other.val
+
+    def __eq__(self,other):
+        return isinstance(other,type(self)) \
+                and (self.val, self.suit) == (other.val, other.suit)
+
+    def __hash__(self):
+        return hash(self.val) ^ hash(self.suit) ^ hash((self.val,self.suit))
+
 import itertools
 import random
 
@@ -46,5 +59,9 @@ def getDeck():
 def printCards(cards):
     print(' '.join(list(map(str,cards))))
 
+def deal(deck,destinations,numberOfCards):
+    for i in range(numberOfCards):
+        for dest in destinations:
+            dest.append(deck.pop())
 
 
