@@ -11,7 +11,3 @@ print("You got:")
 for i in range(5): 
     print(deck[i][0], "of", deck[i][1])
 
-
-
-
-
