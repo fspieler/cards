@@ -44,3 +44,7 @@ def getDeck():
     deck = list(map(Card,itertools.product(range(2,15),range(0,4))))
     random.shuffle(deck)
     return OrderedCards(deck)
+
+def printCards(list_of_cards):
+    print(' '.join(map(str,list_of_cards)))
+
