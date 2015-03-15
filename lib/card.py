@@ -1,6 +1,12 @@
-#/usr/bin/env python
+#!/usr/bin/env python3
 
 from enum import Enum
+
+def blackStr(string):
+    return "\033[0m"+string+"\033[0m"
+
+def redStr(string):
+    return "\033[1;31m"+string+"\033[0m"
 
 class Suit(Enum):
     hearts, spades, diamonds, clubs = range(4)
@@ -13,11 +19,9 @@ class Suit(Enum):
             return "♦"
         if self is Suit.clubs:
             return "♣"
-        return "x"
+        return "x" # shouldn't be reached!
 
 class Card(object):
-    val = 0
-    suit = -1
     def __init__(self,val,suit=None):
         if(type(val) is tuple):
             suit = Suit(val[1])
@@ -29,11 +33,12 @@ class Card(object):
             self.suit = suit
 
     def __str__(self):
-        if self.val < 11:
-            return(str(self.val) + str(self.suit))
+        color = redStr if (self.suit in (Suit.hearts, Suit.diamonds)) else blackStr
+        if self.val < 11: # not a face card
+            return(color(str(self.val) + str(self.suit)))
         else:
             faces = ["J","Q","K","A"]
-            return(faces[self.val-11] + str(self.suit))
+            return(color(faces[self.val-11] + str(self.suit)))
 
     def __gt__(self,other):
         return self.val > other.val
@@ -47,21 +52,3 @@ class Card(object):
 
     def __hash__(self):
         return hash(self.val) ^ hash(self.suit) ^ hash((self.val,self.suit))
-
-import itertools
-import random
-
-def getDeck():
-    deck = list(map(Card,itertools.product(range(2,15),range(0,4))))
-    random.shuffle(deck)
-    return deck
-
-def printCards(cards):
-    print(' '.join(list(map(str,cards))))
-
-def deal(deck,destinations,numberOfCards):
-    for i in range(numberOfCards):
-        for dest in destinations:
-            dest.append(deck.pop())
-
-
