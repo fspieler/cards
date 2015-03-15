@@ -3,7 +3,7 @@
 import itertools, random
 
 # create deck
-deck = list(itertools.product(range(1,14),['Spade','Heart','Diamond','Club'])) 
+deck = list(itertools.product(range(2,14),['Spade','Heart','Diamond','Club'])) 
 # shuffle deck
 random.shuffle(deck) 
 # draw five cards 
