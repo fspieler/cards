@@ -5,13 +5,13 @@ from enum import Enum
 class Suit(Enum):
     hearts, spades, diamonds, clubs = range(4)
     def __str__(self):
-        if self == Suit.hearts:
+        if self is Suit.hearts:
             return "♥"
-        if self == Suit.spades:
+        if self is Suit.spades:
             return "♠"
-        if self == Suit.diamonds:
+        if self is Suit.diamonds:
             return "♦"
-        if self == Suit.clubs:
+        if self is Suit.clubs:
             return "♣"
         return "x"
 
