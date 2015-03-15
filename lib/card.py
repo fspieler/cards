@@ -17,10 +17,10 @@ class Suit(Enum):
 
 class Card(object):
     val = 0
-    suit = 0
+    suit = -1
     def __init__(self,val,suit):
         self.val = val
-        self.suit = Suit.hearts
+        self.suit = suit
 
     def __str__(self):
         if self.val < 11:
@@ -28,7 +28,6 @@ class Card(object):
         else:
             faces = ["J","Q","K","A"]
             return(faces[self.val-11] + str(self.suit))
-
 
 
 
