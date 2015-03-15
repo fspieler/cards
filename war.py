@@ -7,7 +7,7 @@ them = []
 players = [you, them]
 deck= getDeck()
 
-deal(deck, players, 1)
+deal(deck, players, int(52/len(players)))
 
 print("you:")
 printCards(you)
