@@ -18,7 +18,10 @@ class Suit(Enum):
 class Card(object):
     val = 0
     suit = -1
-    def __init__(self,val,suit):
+    def __init__(self,val,suit=None):
+        if(type(val) is tuple):
+            suit = Suit(val[1])
+            val = val[0]
         self.val = val
         if(not type(suit) is Suit):
             self.suit = Suit(suit)
@@ -31,4 +34,17 @@ class Card(object):
         else:
             faces = ["J","Q","K","A"]
             return(faces[self.val-11] + str(self.suit))
+
+import itertools
+import random
+
+def getDeck():
+    deck = list(map(Card,itertools.product(range(2,15),range(0,4))))
+    random.shuffle(deck)
+    return deck
+
+def printCards(cards):
+    print(' '.join(list(map(str,cards))))
+
+
 
