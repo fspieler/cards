@@ -1,5 +1,6 @@
 #/usr/bin/env python
 
+import functools
 from orderedCards import *
 
 class Hand(Enum):
@@ -23,52 +24,32 @@ class Hand(Enum):
             return "high card"
         return "x"
 
-def suitEvaluator(cards): 
-    return lambda suit : {x for x in cards if x.suit == suit}
-def valueFilter(cards): 
-    return lambda value : {x for x in cards if x.value == value}
-    
+def classifyCardsByVal(cards):
+    def helper(d,c):
+        if c.val in d:
+            d[c.val].toBottom(c)
+        else:
+            d[c.val] = OrderedCards([c])
+        return d
+    return functools.reduce(helper, cards, {})
 
-def hearts(cards): 
-    return suitEvaluator(Suit.hearts)(cards)
-def clubs(cards):
-    return suitEvaluator(Suit.clubs)(cards)
-def diamonds(cards):
-    return suitEvaluator(Suit.diamonds)(cards)
-def spades(cards):
-    return suitEvaluator(Suit.spades)(cards)
+def classifyCardsBySuit(cards):
+    def helper(d,c):
+        if c.suit in d:
+            d[c.suit].toBottom(c)
+        else:
+            d[c.suit] = OrderedCards([c])
+        return d
+    return functools.reduce(helper, cards, {})
 
-def ones(cards): 
-    return valueFilter(1)(cards)
-def twos(cards): 
-    return valueFilter(2)(cards)
-def three(cards):
-    return valueFilter(3)(cards)
+def dictCounts(d):
+    return {k: len(v) for k,v in d.items()}
 
+def maxCounts(d):
+    pass
 
-def suitSet(cards):
-    return {
-            'hearts': {x for x in cards if x.suit == Suit.hearts},
-            'spades' : {x for x in cards if x.suit == Suit.spades},
-            'diamonds' : {x for x in cards if x.suit == Suit.diamonds},
-            'clubs' : {x for x in cards if x.suit == Suit.clubs},
-            }
-
-def valSet(cards):
-    return {
-            'twos': {x for x in cards if x.val == 2},
-            'threes': {x for x in cards if x.val == 3},
-            'fours': {x for x in cards if x.val == 4},
-            'fives': {x for x in cards if x.val == 5},
-            'sixes': {x for x in cards if x.val == 6},
-            'sevens': {x for x in cards if x.val == 7},
-            'eights': {x for x in cards if x.val == 8},
-            'nines': {x for x in cards if x.val == 9},
-            'tens': {x for x in cards if x.val == 10},
-            'jacks': {x for x in cards if x.val == 11},
-            'queens': {x for x in cards if x.val == 12},
-            'kings': {x for x in cards if x.val == 13},
-            'aces': {x for x in cards if x.val == 14}
-            }
-
+c = cards()
+hand = [c.ha, c.sa, c.ca, c.sk, c.ck, c.
+bySuit = classifyCardsBySuit()
+byVal = classifyCardsByVal(hand)
 
