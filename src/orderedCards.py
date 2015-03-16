@@ -2,7 +2,7 @@
 
 import itertools
 import random
-from src.card import *
+from card import *
 
 class OrderedCards(object):
     def __init__(self,cards_list=None):

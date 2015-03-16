@@ -1,6 +1,6 @@
 #/usr/bin/env python
 
-from src.orderedCards import *
+from orderedCards import *
 
 class Hand(Enum):
     straight_flush, four_of_a_kind, full_house, flush, straight, three_of_a_kind, two_pair, one_pair, high_card = range(9,0,-1)
