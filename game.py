@@ -1,13 +1,11 @@
 #!/usr/bin/env python3
 
 import itertools, random
-from lib.card import *
+from src.poker_hands import *
 
 # create deck
-deck = getDeck();
+deck = getDeck()
 
-# draw five cards 
-print("You got:") 
-for i in range(5):
-    print(deck[i])
-
+user = OrderedCards()
+deck.deal(5, user)
+print("You got: " + str(user))
