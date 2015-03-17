@@ -8,12 +8,39 @@ from orderedCards import *
 
 class HandType(Enum):
     straight_flush, four_of_a_kind, full_house, flush, straight, three_of_a_kind, two_pair, pair, high_card = range(9,0,-1)
+    def __str__(self):
+        if self is HandType.straight_flush:
+            return "straight flush"
+        if self is HandType.four_of_a_kind:
+            return "four of a kind"
+        if self is HandType.full_house:
+            return "full house"
+        if self is HandType.flush:
+            return "flush"
+        if self is HandType.straight:
+            return "straight"
+        if self is HandType.three_of_a_kind:
+            return "three of a kind"
+        if self is HandType.two_pair:
+            return "two pair"
+        if self is HandType.pair:
+            return "pair"
+        if self is HandType.high_card:
+            return "high card"
+        return "x"
+    def __repr__(self):
+        return self.__str__()
+
 
 class Hand(object):
     def __init__(self,handType,vals,cards):
         self.handType = handType
         self.vals = vals
         self.cards = cards 
+    def __str__(self):
+        return str(self.handType) + ": " + str(self.cards)
+    def __repr__(self):
+        return self.__str__()
     def __lt__(self,other):
         if self.handType.value < other.handType.value:
             return True
@@ -91,8 +118,8 @@ def getFullHouseOrThreeOfAKind(cards):
     single = popCardsThatAppearsAtLeastNTimes(1,c)
     vals.append(single[0].val)
     single.deal(1,hand)
-    vals.append(single[0].val)
     single = popCardsThatAppearsAtLeastNTimes(1,c)
+    vals.append(single[0].val)
     single.deal(1,hand)
     return Hand(HandType.three_of_a_kind, vals, hand)
 

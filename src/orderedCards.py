@@ -57,6 +57,14 @@ class OrderedCards(object):
             return OrderedCards(self.cards_list[:][slice])
         return self.cards_list[index]
 
+    def __copy__(self):
+        newone = OrderedCards(list(self.cards_list))
+        return newone
+
+    def __deepcopy__(self,memo):
+        newone = OrderedCards(list(self.cards_list))
+        return newone
+
 def getDeck():
     deck = list(map(Card,itertools.product(range(2,15),range(0,4))))
     random.shuffle(deck)
