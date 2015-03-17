@@ -12,7 +12,7 @@ def cards():
     for num_idx, num in enumerate(numbers):
         for suit_idx, suit in enumerate(suits):
             # add 2 to num_idex since Card wants a number starting from 2
-            setattr(cards,suit+num,Card(num_idx+2, suit_idx))
+            setattr(cards,'_'+num+suit,Card(num_idx+2, suit_idx))
     return cards
 
 class Suit(Enum):
@@ -53,7 +53,7 @@ class Card(object):
             return(color(faces[self.val-11] + str(self.suit)))
 
     def __repr__(self):
-        return self.__str__
+        return self.__str__()
 
     def __gt__(self,other):
         return self.val > other.val
