@@ -7,7 +7,7 @@ from card import *
 from orderedCards import *
 
 class HandType(Enum):
-    straight_flush, four_of_a_kind, full_house, flush, straight, three_of_a_kind, two_pair, pair, high_card = range(9,0,-1)
+    royal_flush, straight_flush, four_of_a_kind, full_house, flush, straight, three_of_a_kind, two_pair, pair, high_card = range(10,0,-1)
     def __str__(self):
         if self is HandType.straight_flush:
             return "straight flush"
@@ -30,7 +30,6 @@ class HandType(Enum):
         return "x"
     def __repr__(self):
         return self.__str__()
-
 
 class Hand(object):
     def __init__(self,handType,vals,cards):
@@ -156,14 +155,78 @@ def getTwoPairOrPair(cards):
         single.deal(1,hand)
     return Hand(HandType.pair, vals, hand)
 
-def isFlush(counts):
-    return counts[0][1] >= 5
+# assume max one flush possible
+def getStraightFlushOrFlush(cards):
+    c = copy.deepcopy(cards)
+    vals = []
+    hand = popCardsThatAppearsAtLeastNTimes(5,c)
+    if hand is None:
+        return None
+    # check for straight flush...
+    c2 = classifyCardsByVal(hand)
+    sf = getStraight(c2)
+    if sf is not None:
+        if sf.vals == [14]:
+            sf.handType = HandType.royal_flush
+        else:
+            sf.handType = HandType.straight_flush
+        return sf
+    # after this point, just an ordinary flush
+    hand.cards_list.sort(reverse=True)
+    hand.cards_list = hand.cards_list[:5]
+    vals = []
+    for card in hand.cards_list:
+        vals.append(card.val)
+    return Hand(HandType.flush, vals, hand)
 
-def evalHand(hand):
-    hand = None
+def getStraight(cards):
+    c = copy.deepcopy(cards)
+    c.sort(key=lambda tup:tup[0],reverse=True)
+    val = c[0][0].val
+    prev = -1
+    consecutive = 1
+    for i in range(len(c)):
+        if c[i][0].val == prev - 1:
+            consecutive += 1
+            prev = c[i][0].val
+            c[i].deal(1,hand)
+            if consecutive == 5:
+                return Hand(HandType.straight, [val], hand)
+        else:
+            consecutive = 1
+            prev = c[i][0].val
+            val = prev
+            hand = OrderedCards()
+            c[i].deal(1,hand)
+    return None
 
-c = cards()
-hand = [c._2h, c._2d, c._2s, c._3s, c._3d, c._jd, c._ks, c._as]
-bySuit = classifyCardsBySuit(hand)
-byVal = classifyCardsByVal(hand)
-
+def evalHand(cards):
+    bySuit = classifyCardsBySuit(cards)
+    byVal = classifyCardsByVal(cards)
+    possibleHands = []
+    rf_sf_or_f = getStraightFlushOrFlush(bySuit)
+    if rf_sf_or_f is not None:
+        if rf_sf_or_f.handType.value >= HandType.straight_flush.value:
+            return rf_sf_or_f # straight flush or royal flush
+        possibleHands.append(rf_sf_or_f) # wait to see if we have a better hand
+    four_oak = getFourOfAKind(byVal)
+    if four_oak is not None:
+        return four_oak
+    fh_or_3oak = getFullHouseOrThreeOfAKind(byVal)
+    if fh_or_3oak is not None:
+        if fh_or_3oak.handType == HandType.full_house:
+            return fh_or_3oak
+        possibleHands.append(fh_or_3oak)
+    straight = getStraight(byVal)
+    if straight is not None:
+        possibleHands.append(straight)
+    if len(possibleHands) > 0:
+        possibleHands.sort()
+        return possibleHands.pop()
+    tp_or_p = getTwoPairOrPair(byVal)
+    if tp_or_p is not None:
+        return tp_or_p
+    cards.cards_list.sort(reverse=True)
+    cards.cards_list = cards.cards_list[:5]
+    vals = list(map(lambda c:c.val,cards.cards_list))
+    return Hand(HandType.high_card, vals, cards)
