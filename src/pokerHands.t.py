@@ -63,6 +63,14 @@ class TestCard(unittest.TestCase):
         self.assertEqual(output_hand.handType, HandType.straight)
         self.assertEqual(output_hand.vals, [8])
 
+    def test_getLowStraight(self):
+        c = card.cards()
+        cards = orderedCards.OrderedCards([c._5h, c._2d, c._3s, c._4h, c._as, c._js, c._8c, c._7c])
+        #output_hand = getStraight(classifyCardsByVal(cards))
+        output_hand = evalHand(cards)
+        self.assertEqual(output_hand.handType, HandType.straight)
+        self.assertEqual(output_hand.vals, [5])
+
     def test_getStraightFlush(self):
         c = card.cards()
         cards = orderedCards.OrderedCards([c._5d, c._2d, c._3d, c._4d, c._6d, c._js, c._8d, c._7d])

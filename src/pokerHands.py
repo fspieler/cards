@@ -183,10 +183,18 @@ def getStraight(cards):
     c = copy.deepcopy(cards)
     c.sort(key=lambda tup:tup[0],reverse=True)
     val = c[0][0].val
+    # hack to handle aces as either high or low
+    if val == 14:
+        acesLowCopy = copy.deepcopy(c[0])
+        c.append(acesLowCopy)
     prev = -1
     consecutive = 1
     for i in range(len(c)):
-        if c[i][0].val == prev - 1:
+        temp = c[i][0].val
+        # hack to handle aces as eigther high or low
+        if prev == 2 and temp == 14:
+            temp = 1
+        if temp == prev - 1:
             consecutive += 1
             prev = c[i][0].val
             c[i].deal(1,hand)
