@@ -23,8 +23,8 @@ deck.deal(1,burn)
 deck.deal(1,community)
 print("River: " + str(community))
 com2 = OrderedCards(community.cards_list[:])
-community.deal(5,fred)
-com2.deal(5,al)
+fred += community
+al += community
 fredHand = evalHand(fred)
 alHand = evalHand(al)
 print("Fred's best hand: " + str(fredHand))

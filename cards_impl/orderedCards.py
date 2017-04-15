@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import itertools
+import copy
 import random
 from .card import *
 
@@ -58,12 +59,45 @@ class OrderedCards(object):
         return self.cards_list[index]
 
     def __copy__(self):
-        newone = OrderedCards(list(self.cards_list))
-        return newone
+        return OrderedCards(list(self.cards_list))
 
     def __deepcopy__(self,memo):
-        newone = OrderedCards(list(self.cards_list))
-        return newone
+        return OrderedCards(list(self.cards_list))
+
+    def __add__(self, other):
+        if type(other) is OrderedCards:
+            ret = copy.copy(self)
+            for c in other.cards_list:
+                ret.toBottom(c)
+        elif type(other) is Card:
+            ret = copy.copy(self)
+            ret.toBottom(other)
+        else:
+            raise TypeError("Expecting OrderedCards or Card; got {}".format(type(other)))
+        return ret
+
+    def __radd__(self, other):
+        if type(other) is OrderedCards:
+            ret = copy.copy(self)
+            for c in other.cards_list:
+                ret.toTop(c)
+        elif type(other) is Card:
+            ret = copy.copy(self)
+            ret.toTop(other)
+        else:
+            raise TypeError("Expecting OrderedCards or Card; got {}".format(type(other)))
+        return ret
+
+    def __iadd__(self, other):
+        if type(other) is OrderedCards:
+            for c in other.cards_list:
+                self.toTop(c)
+        elif type(other) is Card:
+            self.toTop(other)
+        else:
+            raise TypeError("Expecting OrderedCards or Card; got {}".format(type(other)))
+        return self
+
 
 def getDeck():
     deck = list(map(Card,itertools.product(range(2,15),range(0,4))))
