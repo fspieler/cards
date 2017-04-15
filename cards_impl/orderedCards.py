@@ -1,8 +1,8 @@
-#/usr/bin/env python3
+#!/usr/bin/env python3
 
 import itertools
 import random
-from card import *
+from .card import *
 
 class OrderedCards(object):
     def __init__(self,cards_list=None):

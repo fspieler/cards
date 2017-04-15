@@ -16,11 +16,11 @@ class User(object):
         else:
             #Do UPDATES 
             pass
-    
+
     def hole_cards():
         # fetch cards for user_id
         pass
-        
+
     def delete(self):
         if self.new_user == False:
             return False

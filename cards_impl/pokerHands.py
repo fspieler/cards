@@ -3,8 +3,8 @@
 import functools
 import itertools
 import copy
-from card import *
-from orderedCards import *
+from .card import *
+from .orderedCards import *
 
 class HandType(Enum):
     royal_flush, straight_flush, four_of_a_kind, full_house, flush, straight, three_of_a_kind, two_pair, pair, high_card = range(10,0,-1)

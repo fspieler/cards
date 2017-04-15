@@ -1,11 +1,9 @@
 #!/usr/bin/env python3
 
 import itertools, random
-from pokerHands import *
-
-
-# create deck
+from cards_impl import *
 deck = getDeck()
+
 
 fred = OrderedCards()
 al = OrderedCards()

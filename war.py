@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from pokerHands import *
+from cards_impl import *
 
 def war(you, them, cards=None):
     if(cards is None):

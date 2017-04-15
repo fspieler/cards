@@ -1,13 +1,12 @@
-#/usr/bin/env python3
+#!/usr/bin/env python3
 
 import unittest
-from orderedCards import *
+from .orderedCards import *
 
 class TestOrderedCards(unittest.TestCase):
 
     def setUp(self):
         self.c = cards()
-
 
     def test_construction(self):
         c = self.c
@@ -17,7 +16,7 @@ class TestOrderedCards(unittest.TestCase):
 
     def test_normal_deal(self):
         c = self.c
-        l_cards = [c.2h, card2, card3, card4]
+        l_cards = [c._2h, card2, card3, card4]
         deck = OrderedCards(l_cards)
         dest = OrderedCards()
         deck.deal(2,dest)
