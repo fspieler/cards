@@ -1,0 +1,14 @@
+[project]
+name = "cards"
+version = "0.1.0"
+description = "A simple example package"
+requires-python = ">=3.8"
+dependencies = [
+]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]

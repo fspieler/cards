@@ -27,7 +27,6 @@ def war(you, them, cards=None):
 
 you = OrderedCards()
 them = OrderedCards()
-players = [you, them]
 deck= getDeck()
 
 deck.deal(26, you, them)
@@ -38,5 +37,8 @@ print(you)
 print("them:")
 print(them)
 
+count = 0
 while len(you) > 0 and len(them) > 0:
+    count += 1
     war(you, them)
+    print("count", count)
